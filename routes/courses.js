@@ -15,9 +15,9 @@ router.get('/courses', async (req, res, next) => {
                 include: ['id', 'title', 'description', 'estimatedTime', 'materialsNeeded'],
                 exclude: ['createdAt', 'updatedAt']
             },
-            include: [{
-                model: User
-            }],
+            // include: [{
+            //     model: User
+            // }],
         });
         res.status(200).json({ courses });
 
