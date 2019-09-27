@@ -22,7 +22,8 @@ const db = {
     models: {},
 };
 
-// db.models.Course = require('./models/course.js')(sequelize);
+
+db.models.Course = require('./models/Course.js')(sequelize);
 db.models.User = require('./models/User.js')(sequelize);
 
 module.exports = db;

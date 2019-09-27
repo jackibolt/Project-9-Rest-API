@@ -9,6 +9,7 @@ const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'tr
 
 const db = require('./db');
 
+
 // create the Express app
 const app = express();
 

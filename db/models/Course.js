@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 
 module.exports = sequelize => {
     
-    class Course extends Sequelize.Models {}
+    class Course extends Sequelize.Model {}
 
     Course.init({
         title: {
@@ -22,14 +22,14 @@ module.exports = sequelize => {
     }, { sequelize });
 
     Course.associate = (models) => {
-        Course.belongsTo(models.Course, {
+        Course.belongsTo(models.User, {
             as: 'user',
             foreignKey: {
                 fieldName: 'userId',
                 allowNull: false,
-            }
-        })
-    }
+            },
+        });
+    };
 
     return Course;
 
