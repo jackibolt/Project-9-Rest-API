@@ -3,11 +3,23 @@
 // load modules
 const express = require('express');
 const morgan = require('morgan');
+const db = require('./db');
+const bodyParser = require('body-parser');
 
 // variable to enable global error logging
 const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
 
-const db = require('./db');
+// connect to database
+(async () => {
+  await db.sequelize.sync();
+
+  try {
+    await db.sequelize.authenticate();
+    console.log('Database is connected');
+  } catch (error) {
+    console.error('Error connecting to the database: ', error);
+  }
+})();
 
 
 // create the Express app
@@ -15,6 +27,12 @@ const app = express();
 
 // Setup request body JSON parsing.
 app.use(express.json());
+
+// Body-parser
+app.use(bodyParser.urlencoded({extended: false}));
+
+// parse application/json
+app.use(bodyParser.json());
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));

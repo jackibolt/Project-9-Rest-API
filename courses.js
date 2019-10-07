@@ -82,7 +82,7 @@ router.post('/courses', authenticateUser, validateCourse, async (req, res) => {
             errors: errorMessages
         })
     } else {
-        const course = await Course.create(req.body);
+        const course = await Course.create(req.body)
         res.location(`/${course.id}`).status(201).end();
     }
 

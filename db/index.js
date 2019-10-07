@@ -7,23 +7,19 @@ const sequelize = new Sequelize({
     logging: false,
 });
 
-(async () => {
-    try {
-      await sequelize.authenticate();
-      console.log('Database is connected');
-    } catch (error) {
-      console.error('Error connecting to the database: ', error);
-    }
-  })();
-
 const db = {
     sequelize,
     Sequelize,
     models: {},
 };
 
-
+// add models to databasd
 db.models.Course = require('./models/Course.js')(sequelize);
 db.models.User = require('./models/User.js')(sequelize);
+
+// create associations
+db.models.Course.associate(db.models);
+db.models.User.associate(db.models);
+
 
 module.exports = db;

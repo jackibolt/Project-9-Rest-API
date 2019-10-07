@@ -1,10 +1,12 @@
 
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcryptjs');
 
 //Database
-const db = require('../db');
-const { User } = db.models;
+const { sequelize, models } = require('../db');
+const { Course, User } = models;
+
 
 const { validationResult } = require('express-validator');
 
@@ -14,7 +16,7 @@ const authenticateUser = require('../middleware/authenticateUser');
 const validateUser = require('../middleware/validateUser');
 
 
-// return current authenticated user
+// RETURN CURRENT USER
 router.get('/users', authenticateUser, async (req, res, next) => {
     try {
         const user = await req.currentUser;
@@ -24,13 +26,13 @@ router.get('/users', authenticateUser, async (req, res, next) => {
             emailAddress: user.emailAddress
         });
     } catch (err) {
-        console.error("There's been an error: ", err);
+        next(err);
     }
 
 })
 
 
-// create new user
+// CREATE NEW USER
 router.post('/users', validateUser, (req, res) => {
 
     const errors = validationResult(req);
@@ -42,8 +44,10 @@ router.post('/users', validateUser, (req, res) => {
         })
     } else {
         const user = req.body;
+        user.password = bcrypt.hashSync(user.password);
         console.log(user);
-        User.create(user)
+        User.create(user);
+        res.location('/');
         res.status(201).end();
     }
 
