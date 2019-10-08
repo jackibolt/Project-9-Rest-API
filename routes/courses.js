@@ -83,7 +83,7 @@ router.post('/courses', authenticateUser, validateCourse, async (req, res) => {
         })
     } else {
         const course = await Course.create(req.body);
-        res.location(`/${course.id}`).status(201).end();
+        res.location(`localhost:5000/api/courses/${course.id}`).status(201).end();
     }
 
 });
