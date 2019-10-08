@@ -23,7 +23,8 @@ router.get('/users', authenticateUser, async (req, res, next) => {
         res.status(200).json({
             firstName: user.firstName,
             lastName: user.lastName,
-            emailAddress: user.emailAddress
+            emailAddress: user.emailAddress,
+            userId: user.id
         });
     } catch (err) {
         next(err);
